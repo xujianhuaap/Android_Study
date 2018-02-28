@@ -13,6 +13,12 @@ import com.example.app.BookOuterClass;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -29,6 +35,34 @@ public class MainActivity extends AppCompatActivity {
         BookOuterClass.Book b = book.build();
         textView.setText("");
 
+
+        Observable observable = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+
+            }
+        });
+        observable.subscribe(new Observer() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
 //        AtomicInteger integer = new AtomicInteger(0);
 //        for(int i =0;i<300;i++){
 //
