@@ -11,6 +11,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            moduleName "MediaPlayerJNi"
+            ldLibs "log", "z", "m"
+            abiFilters "armeabi", "armeabi-v7a", "x86"
+        }
     }
     buildTypes {
         release {
@@ -37,6 +42,11 @@ android {
                     javalite {}
                 }
             }
+        }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path 'Android.mk'
         }
     }
 }
