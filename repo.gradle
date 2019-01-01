@@ -1,0 +1,61 @@
+apply plugin:'maven'
+apply plugin: 'maven-publish'
+
+repositories{
+    maven {url "http://skullmind.cn:81/repository/maven-releases/"}
+    maven {url "http://skullmind.cn:81/repository/maven-snapshots/"}
+    jcenter()
+    mavenLocal()
+}
+if (!project.getRootProject().hasProperty("aarMap")) {
+    project.getRootProject().ext.set("aarMap", new HashSet<String>())
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            if (components.hasWithName("java")) {
+                from components.java
+            } else if (components.hasWithName("android")) {
+                from components.android
+            } else {
+                artifact "${project.buildDir}/outputs/aar/${project.name}-debug.aar"
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    configurations.api.allDependencies.each {
+                        println("project name:"+"${it.name}")
+                        println("project version:"+"${it.version}")
+                        println("project group:"+"${it.group}")
+                        if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', it.group)
+                            dependencyNode.appendNode('artifactId', it.name)
+                            dependencyNode.appendNode('version', it.version)
+                            if (it.group == groupId && project.getRootProject().aarMap.contains(it.name)) {
+                                dependencyNode.appendNode('type', 'aar')
+                            }
+                            //	providedCompiles.add(it.group + "." + it.name)
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+    repositories{
+        maven{
+            println("project name:"+"${project.name}")
+            println("project version:"+"${project.version}")
+            println("project group:"+"${project.group}")
+            if(!"${project.version}".contains("SNAPSHOT")){
+                url "http://skullmind.cn:81/repository/maven-releases/"
+            }else{
+                url "http://skullmind.cn:81/repository/maven-snapshots/"
+            }
+            credentials{
+                username	=	"admin"
+                password	=	"admin123"
+            }
+        }
+    }
+}

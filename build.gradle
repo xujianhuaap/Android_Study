@@ -15,14 +15,23 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
+ext{
+    group = "cn.skullmind.app"
+    version = "1.1.2-SNAPSHOT"
+}
 allprojects {
     repositories {
         google()
         jcenter()
     }
 }
-
+subprojects {
+    if (project.name != 'app') {
+        apply from: '../repo.gradle'
+        group = rootProject.ext.group
+        version = rootProject.ext.version
+    }
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
