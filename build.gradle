@@ -3,6 +3,9 @@
 buildscript {
     
     repositories {
+        maven{
+            url "http://skullmind.cn:81/repository/maven-snapshots/"
+        }
         google()
         jcenter()
     }
@@ -21,6 +24,9 @@ ext{
 }
 allprojects {
     repositories {
+        maven{
+            url "http://skullmind.cn:81/repository/maven-snapshots/"
+        }
         google()
         jcenter()
     }
