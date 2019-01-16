@@ -37,14 +37,10 @@ import static javax.microedition.khronos.opengles.GL10.GL_FLOAT;
  */
 
 public class MyRenderer implements GLSurfaceView.Renderer {
-    float[] dots = new float[]{
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f};
-    float[] colorDots = new float[]{
-            1f, 0f, 0.0f,
-            0, 1, 0.0f,
-            0.0f, 0f, 1f};
+    float[] vertexDots = new float[]{
+            -0.5f, -0.5f, 0.0f, 1f, 0f, 0.0f,
+            0.5f, -0.5f, 0.0f,0, 1, 0.0f,
+            0.0f, 0.5f, 0.0f,0.0f, 0f, 1f};
     int program;
     private int mPositionHandle;
     private int mColorHandle;
@@ -55,16 +51,8 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        FloatBuffer vertices = ByteBuffer.allocateDirect(Float.SIZE/8*dots.length)
-                .order(ByteOrder.nativeOrder()).asFloatBuffer().put(dots);
-        vertices.position(0);
-
-        FloatBuffer colorVertices = ByteBuffer.allocateDirect(Float.SIZE/8*colorDots.length)
-                .order(ByteOrder.nativeOrder()).asFloatBuffer().put(colorDots);
-        colorVertices.position(0);
-
-
-
+        FloatBuffer vertices = ByteBuffer.allocateDirect(Float.SIZE/8* vertexDots.length)
+                .order(ByteOrder.nativeOrder()).asFloatBuffer().put(vertexDots);
 
         String fragmentShaderSource =  "precision mediump float;\n"
                 + "varying vec3 uColor;\n"
@@ -102,14 +90,15 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         mColorHandle = glGetAttribLocation(program, "vColor");
         mMatrixHandle = glGetUniformLocation(program, "uMVPMatrix");
 
+        vertices.position(0);
         glEnableVertexAttribArray(mPositionHandle);
         glVertexAttribPointer(mPositionHandle, 3, GL_FLOAT, false,
-                3*Float.SIZE/8, vertices);
+                6*Float.SIZE/8, vertices);
 
-
+        vertices.position(3);
         glEnableVertexAttribArray(mColorHandle);
         glVertexAttribPointer(mColorHandle, 3, GL_FLOAT, false,
-                3*Float.SIZE/8, colorVertices);
+                6*Float.SIZE/8, vertices);
 
 
 
