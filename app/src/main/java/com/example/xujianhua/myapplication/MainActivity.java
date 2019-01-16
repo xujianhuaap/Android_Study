@@ -3,17 +3,19 @@ package com.example.xujianhua.myapplication;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
-import android.content.res.Configuration;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private static final  int RENDER_BASIC = 0;
+    private static final  int RENDER_RECTANGLE = 1;
     private GLSurfaceView glSurfaceView;
     private boolean rendererSet = false;
+    private GLSurfaceView.Renderer renderer;
+    private int render = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         if (supportsEs2) {
             glSurfaceView.setEGLContextClientVersion(2);
             glSurfaceView.setEGLConfigChooser(8,8,8,8,16,0);
-            glSurfaceView.setRenderer(new MyRenderer());
+            glSurfaceView.setRenderer(getRenderer());
             glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
             rendererSet = true;
@@ -60,5 +62,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         if(rendererSet)glSurfaceView.onResume();
         super.onResume();
+    }
+
+    public GLSurfaceView.Renderer getRenderer(){
+        if(render == RENDER_RECTANGLE){
+            return  new RectangleRender();
+        }else {
+            return new BasicRender();
+        }
     }
 }

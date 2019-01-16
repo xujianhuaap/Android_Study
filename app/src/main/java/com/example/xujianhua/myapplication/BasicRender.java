@@ -36,7 +36,7 @@ import static javax.microedition.khronos.opengles.GL10.GL_FLOAT;
  * Created by xujianhua on 1/15/19.
  */
 
-public class MyRenderer implements GLSurfaceView.Renderer {
+public class BasicRender implements GLSurfaceView.Renderer {
     float[] vertexDots = new float[]{
             -0.5f, -0.5f, 0.0f, 1f, 0f, 0.0f,
             0.5f, -0.5f, 0.0f,0, 1, 0.0f,
