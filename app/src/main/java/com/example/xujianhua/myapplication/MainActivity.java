@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         if (supportsEs2) {
             glSurfaceView.setEGLContextClientVersion(2);
             glSurfaceView.setEGLConfigChooser(8,8,8,8,16,0);
-            glSurfaceView.setRenderer(new AirHockeyRenderer());
+            glSurfaceView.setRenderer(new MyRenderer());
             glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
             rendererSet = true;
