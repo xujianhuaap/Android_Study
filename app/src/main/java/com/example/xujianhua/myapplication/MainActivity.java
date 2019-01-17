@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     public GLSurfaceView.Renderer getRenderer(){
         if(render == RENDER_RECTANGLE){
-            return  new RectangleRender();
+            return  new RectangleRender(this);
         }else {
             return new BasicRender();
         }
